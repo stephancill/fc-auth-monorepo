@@ -9,6 +9,7 @@ import {
 } from "./QRCodeDialog.css.ts";
 import { Button } from "../Button.tsx";
 import { QRCode } from "../QRCode.tsx";
+import useAuthKitContext from "../../hooks/useAuthKitContext.ts";
 
 export function QRCodeDialog({
   open,
@@ -23,6 +24,8 @@ export function QRCodeDialog({
   isError: boolean;
   error?: AuthClientError;
 }) {
+  const {setPopup} = useAuthKitContext()
+
   return (
     <Dialog open={open} titleId="Sign In With Farcaster" onClose={onClose}>
       <div className="fc-authkit-qrcode-dialog">
@@ -100,6 +103,27 @@ export function QRCodeDialog({
                     />
                   </svg>
                   <span style={{ marginLeft: 9 }}>I'm using my phone →</span>
+                </Button>
+                <Button
+                  kind="tertiary"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontWeight: 500,
+                  }}
+                  onClick={() => {
+                    const popup = window.open(
+                      url,
+                      "Sign in with Farcaster",
+                      "width=400,height=600"
+                    );
+                    if (popup) {
+                      setPopup(popup);
+                      popup.focus();
+                    }
+                  }}
+                >
+                  <span style={{}}>Open Popup</span>
                 </Button>
               </div>
             </>

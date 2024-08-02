@@ -35,6 +35,8 @@ export interface AuthKitContextValues {
   appClient?: AppClient;
   onSignIn: (signInData: UseSignInData) => void;
   onSignOut: () => void;
+  popup?: Window;
+  setPopup: (popup: Window) => void;
 }
 
 const domainDefaults = (typeof window !== 'undefined' && window?.location) ? {
@@ -55,6 +57,7 @@ export const AuthKitContext = createContext<AuthKitContextValues>({
   signInMessage: {},
   onSignIn: () => { },
   onSignOut: () => { },
+  setPopup: () => { },
 });
 
 export function AuthKitProvider({
@@ -68,6 +71,7 @@ export function AuthKitProvider({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [profile, setProfile] = useState<Profile>({});
   const [signInMessage, setSignInMessage] = useState<SignInMessage>({});
+  const [popup, setPopup] = useState<Window>();
 
   const authKitConfig = {
     ...configDefaults,
@@ -90,7 +94,8 @@ export function AuthKitProvider({
     setIsAuthenticated(true);
     setProfile({ fid, username, bio, displayName, pfpUrl, custody, verifications });
     setSignInMessage({ message, signature });
-  }, []);
+    popup?.close()
+  }, [popup]);
 
   const onSignOut = () => {
     setIsAuthenticated(false);
@@ -107,7 +112,9 @@ export function AuthKitProvider({
         signInMessage,
         config: authKitConfig,
         onSignIn,
-        onSignOut
+        onSignOut,
+        popup,
+        setPopup
       }}
     >
       {children}
