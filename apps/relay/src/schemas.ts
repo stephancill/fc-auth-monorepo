@@ -41,7 +41,7 @@ export const authenticateRequestSchema = {
     },
     signature: {
       type: "string",
-      pattern: "^0x[a-fA-F0-9]{130}$",
+      pattern: "^0x[a-fA-F0-9]+$",
     },
     fid: {
       type: "integer",
