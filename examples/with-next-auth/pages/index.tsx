@@ -8,12 +8,14 @@ import {
   StatusAPIResponse,
 } from "@farcaster/auth-kit";
 import { useCallback, useState } from "react";
+import { ethers } from "ethers";
 
 const config = {
   relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
   siweUri: "http://example.com/login",
   domain: "example.com",
+  provider: new ethers.JsonRpcProvider("https://mainnet.optimism.io", 10)
 };
 
 export default function Home() {
