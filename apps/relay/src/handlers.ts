@@ -70,7 +70,7 @@ export async function createChannel(request: FastifyRequest<{ Body: CreateChanne
 
 export async function authenticate(request: FastifyRequest<{ Body: AuthenticateRequest }>, reply: FastifyReply) {
   const authKey = request.headers["x-farcaster-auth-relay-key"] || request.headers["x-farcaster-connect-auth-key"];
-  if (authKey !== AUTH_KEY) {
+  if (AUTH_KEY && authKey !== AUTH_KEY) {
     return reply.code(401).send({ error: "Unauthorized" });
   }
 
